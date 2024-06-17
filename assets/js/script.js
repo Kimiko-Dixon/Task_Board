@@ -1,4 +1,4 @@
-
+// Select elements
 let taskDue = $('#task-due-date');
 let taskTitle = $('#task-title');
 let taskDescription = $('#task-description');
@@ -7,22 +7,12 @@ const lanes = $('.lane')
 
 // Retrieve tasks and nextId from localStorage
 let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
-let nextId = JSON.parse(localStorage.getItem("nextId"));
+let nextId = JSON.parse(localStorage.getItem("nextId")) || [];
 
-// Generates a unique task id *****redo?*****
+// Generates a unique task id
 function generateTaskId() {
-    let taskId;
     
-    console.log(taskList.length);
-    if (taskList.length === 0)
-    {
-        taskId = 1
-    }
-    else
-    {
-        taskId = JSON.parse(localStorage.getItem("nextId"));
-    }
-
+    const taskId = crypto.randomUUID();
     return taskId;
 }
 
@@ -81,7 +71,7 @@ function renderTaskList() {
         
         // Add classes and datasets
         colClass.attr('class', 'col');
-        colClass.attr('data-taskId', task.id.toString());
+        colClass.attr('data-taskId', task.id);
         colClass.attr('data-status', task.status);
         cardClass.attr('class', 'card');
 
@@ -112,6 +102,7 @@ function renderTaskList() {
                 {
                     stack: colClass,
                     opacity: 0.7,
+                    revert: 'invalid'
                 });
           } );
         
@@ -127,7 +118,8 @@ function handleAddTask(event){
     // Task object
     const task = 
     {
-        id: generateTaskId(),
+        // Sets id to the id ID in local storage or generates one
+        id: JSON.parse(localStorage.getItem("nextId")) || generateTaskId(),
         title: taskTitle.val().trim(),
         dueDate: taskDue.val(),
         description: taskDescription.val().trim(),
@@ -137,21 +129,21 @@ function handleAddTask(event){
     // Add task to the array
     taskList.push(task);
     
-    // Add the next id to local storage
-    localStorage.setItem('nextId', (task.id) + 1)
+    // Generates the next id and updates local storage
+    localStorage.setItem('nextId',  JSON.stringify(generateTaskId()))
     
     // update the task array in local storage
     localStorage.setItem('tasks', JSON.stringify(taskList))
    
-
-    taskTitle = ''
-    taskDue = ''
-    taskDescription = ''
+    // Clears form fields
+    taskTitle.val('')
+    taskDue.val('')
+    taskDescription.val('')
 
     renderTaskList()
 }
 
-// deletes a task 
+// Deletes a task 
 function handleDeleteTask(event){
    
     // Get the task id of the button
@@ -184,7 +176,7 @@ function handleDrop(event, ui) {
     for (let task of taskList)
     {
         // If the task id matches the task id of the card dragged, change the status to the id of the lane
-        if(ui.draggable[0].dataset.taskid.match(task.id.toString()))
+        if(ui.draggable[0].dataset.taskid.match(task.id))
         {
             task.status = event.target.id
         }
