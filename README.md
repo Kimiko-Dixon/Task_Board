@@ -16,8 +16,7 @@ To use this webpage, click 'Add Task' , fill out the title, due date, and descri
 
 ## Credits
 
-Tutor: lines 153-161
-
+Tutor: lines 153-161 (Fixed gaps in the array when deleting)
 ## License
 
 LICENSE in repo.
