@@ -11,6 +11,7 @@ To use this webpage, click 'Add Task' , fill out the title, due date, and descri
 ![Screenshot 1](./assets/images/AddTaskModal.PNG)
 ![Screenshot 2](./assets/images/Tasks1.PNG)
 ![Screenshot 3](./assets/images/Tasks2.PNG)
+![Screenshot 4](./assets/images/Delete.PNG)
 [Deployed Application](https://kimiko-dixon.github.io/Task_Board/)
 
 ## Credits
